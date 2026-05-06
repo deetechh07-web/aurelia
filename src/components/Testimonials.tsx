@@ -49,13 +49,13 @@ export default function Testimonials() {
         </div>
 
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6 md:mb-8">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-5 h-5 text-gold fill-gold mx-1" />
             ))}
           </div>
 
-          <div className="relative h-[250px] md:h-[200px] flex items-center justify-center">
+          <div className="relative min-h-[320px] md:min-h-[200px] flex items-start md:items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -65,7 +65,7 @@ export default function Testimonials() {
                 transition={{ duration: 0.5 }}
                 className="absolute text-center px-4"
               >
-                <p className="font-serif text-2xl md:text-3xl leading-relaxed mb-8 italic text-background/90">
+                <p className="font-serif text-xl md:text-3xl leading-relaxed mb-6 md:mb-8 italic text-background/90">
                   "{testimonials[currentIndex].quote}"
                 </p>
                 <div>
@@ -76,7 +76,7 @@ export default function Testimonials() {
             </AnimatePresence>
           </div>
 
-          <div className="flex justify-center gap-6 mt-8">
+          <div className="flex justify-center gap-6 mt-6 md:mt-8">
             <button
               onClick={prev}
               className="w-12 h-12 rounded-full border border-background/20 flex items-center justify-center hover:border-gold hover:text-gold transition-all duration-300"
