@@ -6,6 +6,7 @@ import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface CartDrawerProps {
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, updateQuantity, removeItem, getCartTotal, getCartCount, openCheckout } = useCartStore();
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -36,6 +38,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     openCheckout();
   };
 
+  const handleContinueShopping = () => {
+    onClose();
+    if (window.history.length > 2) {
+      router.back();
+    } else {
+      router.push('/collection');
+    }
+  };
+
   const drawerContent = (
     <AnimatePresence>
       {isOpen && (
@@ -46,7 +57,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-lg z-[9998]"
           />
 
           {/* Drawer */}
@@ -55,7 +66,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-[100vh] w-full max-w-md bg-background border-l border-border-color shadow-2xl z-[9999] flex flex-col"
+            className="fixed top-0 right-0 h-[100vh] w-full max-w-md bg-background/85 backdrop-blur-3xl border-l border-white/20 dark:border-white/5 shadow-[-20px_0_60px_-15px_rgba(0,0,0,0.3)] z-[9999] flex flex-col"
           >
             {/* Header */}
             <div className="flex justify-between items-center p-6 border-b border-border-color">
@@ -77,7 +88,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <ShoppingBag className="w-12 h-12 mb-2 opacity-50" />
                   <p className="font-light">Your cart is elegantly empty.</p>
                   <button
-                    onClick={onClose}
+                    onClick={handleContinueShopping}
                     className="mt-4 px-6 py-2 border border-foreground text-foreground rounded-full text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
                   >
                     Continue Shopping
@@ -154,7 +165,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   Checkout securely
                 </button>
                 <button
-                  onClick={onClose}
+                  onClick={handleContinueShopping}
                   className="w-full border border-border-color text-foreground py-4 rounded-full text-sm uppercase tracking-widest hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                 >
                   Continue Shopping

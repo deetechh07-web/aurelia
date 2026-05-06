@@ -180,17 +180,17 @@ export function ConciergeChatbot() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4 bg-black/60 backdrop-blur-lg"
         >
           <motion.div
-            initial={{ scale: 0.95, y: 20, opacity: 0 }}
+            initial={{ scale: 0.95, y: 100, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
-            exit={{ scale: 0.95, y: 20, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-background w-full max-w-lg h-[80vh] md:h-[600px] rounded-3xl shadow-2xl border border-border-color overflow-hidden flex flex-col relative"
+            exit={{ scale: 0.95, y: 100, opacity: 0 }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="bg-background/85 backdrop-blur-2xl w-full max-w-lg h-[90vh] md:h-[650px] rounded-t-3xl md:rounded-3xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.3)] border border-white/20 dark:border-white/5 overflow-hidden flex flex-col relative"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b border-border-color bg-background/80 backdrop-blur-md absolute top-0 w-full z-10">
+            <div className="flex items-center justify-between p-5 border-b border-border-color/30 bg-background/50 backdrop-blur-xl absolute top-0 w-full z-10 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold">
                   <Sparkles className="w-5 h-5" />
@@ -249,7 +249,7 @@ export function ConciergeChatbot() {
 
             {/* Input Area */}
             {step > 0 && step < 6 && (
-              <div className="absolute bottom-0 w-full p-4 bg-background/90 backdrop-blur-md border-t border-border-color">
+              <div className="absolute bottom-0 w-full p-4 md:p-5 bg-background/70 backdrop-blur-xl border-t border-border-color/30 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.1)]">
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -262,7 +262,7 @@ export function ConciergeChatbot() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder={step === 5 ? "Any notes (optional)..." : "Type your answer..."}
-                    className="flex-1 bg-card-bg border border-border-color rounded-full px-5 py-3 text-sm focus:outline-none focus:border-gold transition-colors text-foreground placeholder:text-foreground/40"
+                    className="flex-1 bg-card-bg/60 backdrop-blur-md border border-border-color rounded-full px-5 py-4 text-sm focus:outline-none focus:border-gold transition-colors text-foreground placeholder:text-foreground/40 shadow-inner"
                     disabled={isTyping}
                     autoFocus
                   />

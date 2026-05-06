@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
 import { CartDrawer } from "./CartDrawer";
 import { Logo } from "./ui/Logo";
+import { createPortal } from "react-dom";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,6 +25,17 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
 
   const navLinks = [
     { name: "Skincare", href: "/#collection" },
@@ -93,38 +105,47 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 bg-background z-50 p-6 flex flex-col"
-          >
-            <div className="flex justify-between items-center mb-12">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                <Logo />
-              </Link>
-              <button onClick={() => setMobileMenuOpen(false)}>
-                <X className="w-8 h-8 text-foreground" />
-              </button>
-            </div>
-            <nav className="flex flex-col gap-6 text-2xl font-serif">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="text-foreground hover:text-gold transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-background/95 backdrop-blur-md z-[9999] p-6 flex flex-col"
+            >
+              <div className="flex justify-between items-center mb-12">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                  <Logo />
                 </Link>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <button onClick={() => setMobileMenuOpen(false)} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+                  <X className="w-8 h-8 text-foreground" />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-8 text-3xl font-serif mt-10">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1, type: "spring", stiffness: 100 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="text-foreground hover:text-gold transition-colors block border-b border-border-color/30 pb-4"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
     </header>
