@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <style>
+    .primary { fill: #111111; stroke: #111111; }
+    @media (prefers-color-scheme: dark) {
+      .primary { fill: #F9F6EE; stroke: #F9F6EE; }
+    }
+  </style>
+  <g class="primary">
+    <!-- Thin outer ring -->
+    <circle cx="256" cy="256" r="230" stroke-width="8" fill="none" opacity="0.15"/>
+    <!-- Main A shape (thin & elegant) -->
+    <path d="M256 110 L140 400 H165 L256 160 L347 400 H372 L256 110 Z" fill="currentColor" stroke="none" />
+    <!-- Crossbar -->
+    <rect x="200" y="300" width="112" height="8" fill="currentColor" stroke="none" />
+    <!-- Central diamond -->
+    <polygon points="256,210 270,240 256,270 242,240" fill="currentColor" stroke="none" opacity="0.7"/>
+  </g>
+</svg>
